@@ -10,11 +10,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <style>.brand-logo{height:54px;width:54px;object-fit:contain;vertical-align:middle}.footer .brand-logo{height:72px;width:72px;display:block;margin-bottom:12px}.brand{display:inline-flex;align-items:center;gap:10px}</style>
 </head>
 <body>
   <div class="announcement">FREE DELIVERY ON ORDERS OVER RS. 5,000 • CASH ON DELIVERY AVAILABLE</div>
   <header class="site-header">
-    <a class="brand" href="index.html"><span>BB</span> COLLECTION</a>
+    <a class="brand" href="index.html"><img class="brand-logo" src="assets/brand/bb-logo.svg" alt="BB Collection — Stay Rare"></a>
     <button class="menu-toggle" aria-label="Open menu">☰</button>
     <nav class="nav">
       <a class="active" href="index.html">Home</a><a href="shop.html">Shop</a><a href="#collections">Collections</a><a href="#story">Our Story</a><a href="https://www.instagram.com/_bb_collection12/" target="_blank" rel="noopener" aria-label="BB Collection Instagram">Instagram</a>
@@ -32,7 +33,7 @@
     <section class="story" id="story"><div><p class="eyebrow">THE BB MINDSET</p><h2>Wear your aura.<br><em>Stay rare.</em></h2></div><p>BB Collection is built around individuality. We make wearable pieces with bold graphics, comfortable oversized fits and a premium feel — so your style speaks before you do.</p></section>
     <section class="newsletter"><p class="eyebrow">DON'T MISS THE NEXT DROP</p><h2>Join the rare list.</h2><form id="newsletterForm"><input type="email" id="newsletterEmail" placeholder="Your email address" required><button class="btn" type="submit">JOIN</button></form><p id="newsletterMessage" class="form-message"></p></section>
   </main>
-  <footer class="footer"><div><a class="brand" href="index.html"><span>BB</span> COLLECTION</a><p>Premium oversized streetwear. Stay rare.</p><a class="instagram-link" href="https://www.instagram.com/_bb_collection12/" target="_blank" rel="noopener">📸 Follow @ _bb_collection12 on Instagram</a></div><div class="footer-links"><a href="shop.html">Shop</a><a href="cart.html">Cart</a><a href="checkout.html">Checkout</a><a href="admin.html">Admin</a><a href="https://www.instagram.com/_bb_collection12/" target="_blank" rel="noopener">Instagram</a></div><p>© <span id="year"></span> BB Collection. All rights reserved.</p></footer>
+  <footer class="footer"><div><a class="brand" href="index.html"><img class="brand-logo" src="assets/brand/bb-logo.svg" alt="BB Collection — Stay Rare"></a><p>Premium oversized streetwear. Stay rare.</p><a class="instagram-link" href="https://www.instagram.com/_bb_collection12/" target="_blank" rel="noopener">📸 Follow @_bb_collection12 on Instagram</a></div><div class="footer-links"><a href="shop.html">Shop</a><a href="cart.html">Cart</a><a href="checkout.html">Checkout</a><a href="admin.html">Admin</a><a href="https://www.instagram.com/_bb_collection12/" target="_blank" rel="noopener">Instagram</a></div><p>© <span id="year"></span> BB Collection. All rights reserved.</p></footer>
   <div class="search-modal" id="searchModal" hidden><div class="search-box"><button id="closeSearch">×</button><input id="searchInput" placeholder="Search products..."><div id="searchResults"></div></div></div>
   <script src="js/supabase.js"></script><script src="js/app.js"></script>
 </body>
