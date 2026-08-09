@@ -1,12 +1,24 @@
 const PRODUCTS=[
-{id:'1',name:'Stay Rare Oversized Tee',price:1650,category:'streetwear',image:'assets/products/stay-rare.svg'},
-{id:'2',name:'Tokyo Nights Graphic Tee',price:1600,category:'anime',image:'assets/products/tokyo-nights.svg'},
-{id:'3',name:'Matchday Oversized Tee',price:1650,category:'football',image:'assets/products/matchday.svg'},
-{id:'4',name:'Archive Washed Tee',price:1550,category:'vintage',image:'assets/products/archive-washed.svg'},
-{id:'5',name:'Broken Beyond Tee',price:1600,category:'streetwear',image:'assets/products/broken-beyond.svg'},
-{id:'6',name:'Neo Tokyo Tee',price:1650,category:'anime',image:'assets/products/neo-tokyo.svg'},
-{id:'7',name:'90s Football Tee',price:1550,category:'football',image:'assets/products/90s-football.svg'},
-{id:'8',name:'Rare Signal Tee',price:1600,category:'vintage',image:'assets/products/rare-signal.svg'}
+{id:'1',name:'Stay Rare Oversized Tee',price:1650,category:'streetwear',image:'file_000000001e4c820bb550691803beedda.png'},
+{id:'2',name:'Street Signal Oversized Tee',price:1600,category:'streetwear',image:'1780582072182.png'},
+{id:'3',name:'Tokyo Nights Oversized Tee',price:1650,category:'anime',image:'file_0000000050c8820bab61130ba5a06d2c.png'},
+{id:'4',name:'Archive Graphic Oversized Tee',price:1550,category:'vintage',image:'1780582074195.png'},
+{id:'5',name:'Broken Beyond Oversized Tee',price:1600,category:'streetwear',image:'716b5a97f8362613dbb763ab17d32643cd79327da87eacb816c142a9645b83f8.png'},
+{id:'6',name:'Neo Tokyo Oversized Tee',price:1650,category:'anime',image:'1784466556762.png'},
+{id:'7',name:'Matchday Oversized Tee',price:1650,category:'football',image:'1780582076755.png'},
+{id:'8',name:'Rare Signal Oversized Tee',price:1600,category:'vintage',image:'file_00000000452c823092a5e8bbd15e28b8.png'},
+{id:'9',name:'Night Drive Oversized Tee',price:1600,category:'streetwear',image:'file_0000000012308209b4fba513d3057e58.png'},
+{id:'10',name:'Manga Frame Oversized Tee',price:1650,category:'anime',image:'file_0000000000948207916c6a6467b543ef.png'},
+{id:'11',name:'Dark City Oversized Tee',price:1550,category:'streetwear',image:'file_000000006ab071f8ad2a8941f58ff3d0.png'},
+{id:'12',name:'Retro League Oversized Tee',price:1600,category:'football',image:'file_0000000062248207879ac0a5946edebb.png'},
+{id:'13',name:'Vintage Press Oversized Tee',price:1550,category:'vintage',image:'file_000000005d0c8246a38a2db3f32e0732.png'},
+{id:'14',name:'Graffiti Code Oversized Tee',price:1650,category:'streetwear',image:'file_0000000058688207bdbe3b4841bc8a08.png'},
+{id:'15',name:'Future Wave Oversized Tee',price:1600,category:'anime',image:'file_000000005658821199f5e369c04eebe3.png'},
+{id:'16',name:'Midnight Club Oversized Tee',price:1550,category:'streetwear',image:'file_0000000095188211b359bbf5acf395cc.png'},
+{id:'17',name:'Old School Oversized Tee',price:1550,category:'vintage',image:'file_00000000759c8207994849e4d21c4c85.png'},
+{id:'18',name:'Football Culture Oversized Tee',price:1600,category:'football',image:'file_00000000714481fa9d9d32a155737b57.png'},
+{id:'19',name:'Rare Archive Oversized Tee',price:1600,category:'vintage',image:'file_00000000fd588211a991e09211e6ba30.png'},
+{id:'20',name:'After Dark Oversized Tee',price:1650,category:'streetwear',image:'file_00000000f1f48246b10a47f6da009cac.png'}
 ];
 
 const money=n=>`Rs. ${Number(n).toLocaleString('en-PK')}`;
@@ -17,7 +29,6 @@ function addToCart(id){const p=PRODUCTS.find(x=>x.id===String(id));if(!p)return;
 function showToast(text){let t=document.querySelector('.toast');if(!t){t=document.createElement('div');t.className='toast';document.body.appendChild(t)}t.textContent=text;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)}
 function productCard(p){return `<article class="product-card"><a href="product.html?id=${p.id}" class="product-image"><img src="${p.image}" alt="${p.name}" loading="lazy"><span>${p.category.toUpperCase()}</span><button type="button" class="wishlist-btn" data-id="${p.id}" aria-label="Add ${p.name} to wishlist">♡</button></a><div class="product-info"><h3>${p.name}</h3><p class="price">${money(p.price)}</p><button class="add-btn" data-add="${p.id}">ADD TO CART</button></div></article>`}
 function renderProducts(list=PRODUCTS){const el=document.querySelector('#featuredProducts');if(!el)return;el.innerHTML=list.slice(0,8).map(productCard).join('');el.querySelectorAll('[data-add]').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();addToCart(b.dataset.add)}));el.querySelectorAll('.wishlist-btn').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();const w=JSON.parse(localStorage.getItem('bb_wishlist')||'[]');if(!w.includes(b.dataset.id))w.push(b.dataset.id);localStorage.setItem('bb_wishlist',JSON.stringify(w));b.textContent='♥';showToast('Saved to wishlist')}));}
-
 const searchModal=document.querySelector('#searchModal');
 document.querySelector('#searchBtn')?.addEventListener('click',()=>{if(searchModal){searchModal.hidden=false;document.querySelector('#searchInput')?.focus()}});
 document.querySelector('#closeSearch')?.addEventListener('click',()=>{if(searchModal)searchModal.hidden=true});
