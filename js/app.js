@@ -1,12 +1,12 @@
 const PRODUCTS=[
-{id:'1',name:'Stay Rare Oversized Tee',price:2499,category:'streetwear',image:'assets/products/stay-rare.svg'},
-{id:'2',name:'Tokyo Nights Graphic Tee',price:2699,category:'anime',image:'assets/products/tokyo-nights.svg'},
-{id:'3',name:'Matchday Oversized Tee',price:2499,category:'football',image:'assets/products/matchday.svg'},
-{id:'4',name:'Archive Washed Tee',price:2899,category:'vintage',image:'assets/products/archive-washed.svg'},
-{id:'5',name:'Broken Beyond Tee',price:2599,category:'streetwear',image:'assets/products/broken-beyond.svg'},
-{id:'6',name:'Neo Tokyo Tee',price:2799,category:'anime',image:'assets/products/neo-tokyo.svg'},
-{id:'7',name:'90s Football Tee',price:2499,category:'football',image:'assets/products/90s-football.svg'},
-{id:'8',name:'Rare Signal Tee',price:2999,category:'vintage',image:'assets/products/rare-signal.svg'}
+{id:'1',name:'Stay Rare Oversized Tee',price:1650,category:'streetwear',image:'assets/products/stay-rare.svg'},
+{id:'2',name:'Tokyo Nights Graphic Tee',price:1600,category:'anime',image:'assets/products/tokyo-nights.svg'},
+{id:'3',name:'Matchday Oversized Tee',price:1650,category:'football',image:'assets/products/matchday.svg'},
+{id:'4',name:'Archive Washed Tee',price:1550,category:'vintage',image:'assets/products/archive-washed.svg'},
+{id:'5',name:'Broken Beyond Tee',price:1600,category:'streetwear',image:'assets/products/broken-beyond.svg'},
+{id:'6',name:'Neo Tokyo Tee',price:1650,category:'anime',image:'assets/products/neo-tokyo.svg'},
+{id:'7',name:'90s Football Tee',price:1550,category:'football',image:'assets/products/90s-football.svg'},
+{id:'8',name:'Rare Signal Tee',price:1600,category:'vintage',image:'assets/products/rare-signal.svg'}
 ];
 
 const money=n=>`Rs. ${Number(n).toLocaleString('en-PK')}`;
