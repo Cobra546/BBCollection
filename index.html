@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="BB Collection — premium streetwear. Stay Rare.">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>BB Collection — STAY RARE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="announcement">FREE DELIVERY ON ORDERS OVER RS. 5,000 • CASH ON DELIVERY AVAILABLE</div>
+  <header class="site-header">
+    <a class="brand" href="index.html"><span>BB</span> COLLECTION</a>
+    <button class="menu-toggle" aria-label="Open menu">☰</button>
+    <nav class="nav">
+      <a class="active" href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="#collections">Collections</a>
+      <a href="#story">Our Story</a>
+    </nav>
+    <div class="header-actions">
+      <button id="searchBtn" aria-label="Search">⌕</button>
+      <a href="cart.html" class="cart-link" aria-label="Cart">🛒 <b id="cartCount">0</b></a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">BB COLLECTION / DROP 01</p>
+        <h1>STAY<br><em>RARE.</em></h1>
+        <p>Oversized essentials and statement pieces made for people who don't follow the crowd.</p>
+        <div class="hero-buttons"><a class="btn" href="shop.html">SHOP THE DROP</a><a class="btn ghost" href="#collections">EXPLORE</a></div>
+      </div>
+      <div class="hero-art"><div class="art-card"><span>BB</span><small>STAY RARE</small></div></div>
+    </section>
+
+    <section class="ticker"><div>PREMIUM FABRIC • OVERSIZED FIT • DESIGNED IN PAKISTAN • BUILT TO STAND OUT • </div></section>
+
+    <section class="section" id="collections">
+      <div class="section-head"><div><p class="eyebrow">CURATED FOR YOU</p><h2>Shop by vibe</h2></div><a href="shop.html">View all →</a></div>
+      <div class="category-grid">
+        <a class="category category-one" href="shop.html?category=streetwear"><span>01</span><h3>Streetwear</h3><small>Everyday statements</small></a>
+        <a class="category category-two" href="shop.html?category=anime"><span>02</span><h3>Anime</h3><small>Graphic energy</small></a>
+        <a class="category category-three" href="shop.html?category=football"><span>03</span><h3>Football</h3><small>Match-day culture</small></a>
+        <a class="category category-four" href="shop.html?category=vintage"><span>04</span><h3>Vintage</h3><small>Old-school attitude</small></a>
+      </div>
+    </section>
+
+    <section class="section" id="featured">
+      <div class="section-head"><div><p class="eyebrow">DROP 01</p><h2>Featured pieces</h2></div><a href="shop.html">Shop all →</a></div>
+      <div class="product-grid" id="featuredProducts"></div>
+    </section>
+
+    <section class="story" id="story">
+      <div><p class="eyebrow">THE BB MINDSET</p><h2>Wear your aura.<br><em>Stay rare.</em></h2></div>
+      <p>BB Collection is built around individuality. We make wearable pieces with bold graphics, comfortable fits and a premium feel — so your style speaks before you do.</p>
+    </section>
+
+    <section class="newsletter">
+      <p class="eyebrow">DON'T MISS THE NEXT DROP</p><h2>Join the rare list.</h2>
+      <form id="newsletterForm"><input type="email" id="newsletterEmail" placeholder="Your email address" required><button class="btn" type="submit">JOIN</button></form>
+      <p id="newsletterMessage" class="form-message"></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div><a class="brand" href="index.html"><span>BB</span> COLLECTION</a><p>Premium streetwear. Stay rare.</p></div>
+    <div class="footer-links"><a href="shop.html">Shop</a><a href="cart.html">Cart</a><a href="checkout.html">Checkout</a><a href="admin.html">Admin</a></div>
+    <p>© <span id="year"></span> BB Collection. All rights reserved.</p>
+  </footer>
+
+  <div class="search-modal" id="searchModal" hidden><div class="search-box"><button id="closeSearch">×</button><input id="searchInput" placeholder="Search products..."><div id="searchResults"></div></div></div>
+  <script src="js/supabase.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
