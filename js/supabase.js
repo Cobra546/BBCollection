@@ -30,8 +30,9 @@ window.bbOrderApi = {
       p_address: order.address,
       p_city: order.city,
       p_notes: order.notes || null,
-      p_total: Number(order.total ?? order.total_amount ?? 0),
-      p_items: payload
+      p_total: Number(order.total ?? 0),
+      p_items: payload,
+      p_payment_method: order.payment_method || 'cod'
     }).then(({ data, error }) => ({ data: data ? { id: data } : null, error }));
   },
 
