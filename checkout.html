@@ -1,1 +1,47 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Checkout — BB Collection</title><link rel="stylesheet" href="css/style.css"></head><body><header class="site-header"><a class="brand" href="index.html"><span>BB</span> COLLECTION</a></header><main class="section"><p class="eyebrow">CHECKOUT</p><h1>Complete your order</h1><form id="checkoutForm" style="max-width:700px;margin-top:35px;display:grid;gap:12px"><input name="name" required placeholder="Full name"><input name="phone" required placeholder="Phone number"><input name="email" type="email" required placeholder="Email"><input name="address" required placeholder="Full delivery address"><input name="city" required placeholder="City"><input name="postal_code" placeholder="Postal code"><select name="payment_method"><option value="cod">Cash on Delivery</option></select><button class="btn" type="submit">PLACE ORDER</button><p id="checkoutMessage" class="form-message"></p></form></main><script src="js/supabase.js"></script><script src="js/app.js"></script><script>document.querySelector('#checkoutForm').addEventListener('submit',async e=>{e.preventDefault();const cart=getCart();if(!cart.length){document.querySelector('#checkoutMessage').textContent='Your cart is empty.';return}const f=new FormData(e.target);const total=cart.reduce((s,x)=>s+x.price*x.qty,0);const order={customer_name:f.get('name'),phone:f.get('phone'),email:f.get('email'),address:f.get('address'),city:f.get('city'),postal_code:f.get('postal_code'),payment_method:f.get('payment_method'),items:cart,total_amount:total,status:'pending'};const msg=document.querySelector('#checkoutMessage');if(!window.bbSupabase){msg.textContent='Order form is ready, but Supabase is not configured. Add your Supabase URL and publishable key in js/supabase.js.';return}const {data,error}=await bbOrderApi.create(order);if(error){msg.textContent=error.message;return}localStorage.removeItem('bb_cart');msg.innerHTML=`Order placed successfully! Your order number is <b>${data.order_number}</b>.`;e.target.reset();updateCartCount()});</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Checkout — BB Collection</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="site-header"><a class="brand" href="index.html"><span>BB</span> COLLECTION</a></header>
+<main class="section">
+  <p class="eyebrow">CHECKOUT</p><h1>Complete your order</h1>
+  <form id="checkoutForm" style="max-width:700px;margin-top:35px;display:grid;gap:12px">
+    <input name="name" required minlength="2" maxlength="100" placeholder="Full name" autocomplete="name">
+    <input name="phone" required minlength="7" maxlength="30" placeholder="Phone number" autocomplete="tel">
+    <input name="email" type="email" required maxlength="200" placeholder="Email" autocomplete="email">
+    <input name="address" required minlength="5" maxlength="500" placeholder="Full delivery address" autocomplete="street-address">
+    <input name="city" required minlength="2" maxlength="100" placeholder="City" autocomplete="address-level2">
+    <input name="postal_code" maxlength="20" placeholder="Postal code" autocomplete="postal-code">
+    <textarea name="notes" maxlength="500" placeholder="Order notes (optional)"></textarea>
+    <select name="payment_method"><option value="cod">Cash on Delivery</option></select>
+    <div id="checkoutSummary"></div><button class="btn" type="submit">PLACE ORDER</button>
+    <p id="checkoutMessage" class="form-message" role="status"></p>
+  </form>
+</main>
+<script src="js/supabase.js"></script><script src="js/app.js"></script>
+<script>
+(() => {
+  const form=document.querySelector('#checkoutForm'), message=document.querySelector('#checkoutMessage'), summary=document.querySelector('#checkoutSummary');
+  const readCart=()=>{try{return JSON.parse(localStorage.getItem('bb_cart')||'[]')}catch{return[]}};
+  function renderSummary(){const cart=readCart(),total=cart.reduce((s,x)=>s+Number(x.price||0)*Number(x.qty||0),0);summary.innerHTML=cart.length?`<strong>${cart.reduce((n,x)=>n+Number(x.qty||0),0)} item(s)</strong> — Rs. ${total.toLocaleString('en-PK')}`:'<strong>Your cart is empty.</strong>';return{cart,total};}
+  form.addEventListener('submit',async e=>{
+    e.preventDefault();const {cart,total}=renderSummary();
+    if(!cart.length){message.textContent='Your cart is empty.';return;}
+    if(!window.bbSupabase){message.textContent='Connecting to the order system… please try again.';return;}
+    const f=new FormData(form);
+    const order={customer_name:String(f.get('name')).trim(),phone:String(f.get('phone')).trim(),email:String(f.get('email')).trim(),address:String(f.get('address')).trim(),city:String(f.get('city')).trim(),notes:String(f.get('notes')||'').trim(),total};
+    const items=cart.map(x=>({product_id:x.product_id??x.productId??x.id,product_name:x.product_name??x.name,quantity:x.qty,unit_price:x.price}));
+    message.textContent='Placing your order…';
+    const result=await window.bbOrderApi.create(order,items);
+    if(result.error){console.error(result.error);message.textContent=result.error.message||'Could not place the order. Please try again.';return;}
+    localStorage.removeItem('bb_cart');if(typeof updateCartCount==='function')updateCartCount();form.reset();summary.innerHTML='';message.innerHTML=`🎉 Order placed successfully! Your order ID is <b>#${result.data.id}</b>.`;
+  });
+  renderSummary();
+})();
+</script>
+</body></html>
