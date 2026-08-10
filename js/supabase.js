@@ -20,6 +20,7 @@ window.bbOrderApi = {
     const payload = (items || []).map(item => ({
       product_id: Number.isFinite(Number(item.product_id)) ? Number(item.product_id) : null,
       product_name: String(item.product_name || item.name || 'Product').slice(0, 200),
+      print_name: String(item.print_name || '').trim().slice(0, 100) || null,
       quantity: Math.max(1, Number(item.quantity ?? item.qty ?? 1)),
       unit_price: Math.max(0, Number(item.unit_price ?? item.price ?? 0))
     }));
