@@ -18,7 +18,9 @@ const PRODUCTS=[
 {id:'17',name:'Old School Oversized Tee',price:1550,category:'vintage',image:'file_00000000759c8207994849e4d21c4c85.png'},
 {id:'18',name:'Football Culture Oversized Tee',price:1600,category:'football',image:'file_00000000714481fa9d9d32a155737b57.png'},
 {id:'19',name:'Rare Archive Oversized Tee',price:1600,category:'vintage',image:'file_00000000fd588211a991e09211e6ba30.png'},
-{id:'20',name:'After Dark Oversized Tee',price:1650,category:'streetwear',image:'file_00000000f1f48246b10a47f6da009cac.png'}
+{id:'20',name:'After Dark Oversized Tee',price:1650,category:'streetwear',image:'file_00000000f1f48246b10a47f6da009cac.png'},
+{id:'21',name:'Rare Species Oversized Tee',price:1650,category:'streetwear',image:'1000531350.png'},
+{id:'22',name:"Don't Fit In Oversized Tee",price:1650,category:'streetwear',image:'1000530754.png'}
 ];
 const money=n=>`Rs. ${Number(n).toLocaleString('en-PK')}`;
 const bbReady=new Promise(resolve=>{if(window.bbSupabase)resolve(window.bbSupabase);else window.addEventListener('bb:supabase-ready',()=>resolve(window.bbSupabase),{once:true})});
