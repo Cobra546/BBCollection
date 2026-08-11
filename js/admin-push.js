@@ -1,5 +1,4 @@
 // BB Collection admin web-push registration.
-// The VAPID public key is safe to expose in the browser; the private key stays in Supabase Edge Function secrets.
 window.BB_VAPID_PUBLIC_KEY = 'BEl-6pvsXOohz6HibWC2T2-fQjXPTlwHb9jLHp41Kwicdwlg9JcTGPjN_Iq4FMxYhu4HR7HWv-jhLvRhp-wrsrg';
 
 function urlBase64ToUint8Array(base64String) {
@@ -22,11 +21,17 @@ window.bbEnableAdminPush = async function () {
   await navigator.serviceWorker.register('/BBCollection/sw.js', { scope: '/BBCollection/' });
   const ready = await navigator.serviceWorker.ready;
   let subscription = await ready.pushManager.getSubscription();
-  if (!subscription) subscription = await ready.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlBase64ToUint8Array(window.BB_VAPID_PUBLIC_KEY) });
+  const keyVersion = window.BB_VAPID_PUBLIC_KEY;
+  if (subscription && localStorage.getItem('bb_vapid_public_key') !== keyVersion) {
+    await subscription.unsubscribe();
+    subscription = null;
+  }
+  if (!subscription) subscription = await ready.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlBase64ToUint8Array(keyVersion) });
   const json = subscription.toJSON();
   const keys = json.keys || {};
   const { error } = await sb.from('admin_push_subscriptions').upsert({ user_id: auth.user.id, endpoint: json.endpoint, p256dh: keys.p256dh, auth: keys.auth, updated_at: new Date().toISOString() }, { onConflict: 'endpoint' });
   if (error) throw error;
+  localStorage.setItem('bb_vapid_public_key', keyVersion);
   return subscription;
 };
 
