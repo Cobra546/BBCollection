@@ -1,6 +1,6 @@
 // BB Collection admin web-push registration.
 // The VAPID public key is safe to expose in the browser; the private key stays in Supabase Edge Function secrets.
-window.BB_VAPID_PUBLIC_KEY = 'BAYf6IEnGiOo9UTM0y8nPiIOg77fSWUriIOVmq5zBgBr_ZUPok3q72TNV4Nmlhj7_83Hw4WpM2EebvxxYDcdNfM';
+window.BB_VAPID_PUBLIC_KEY = 'BEl-6pvsXOohz6HibWC2T2-fQjXPTlwHb9jLHp41Kwicdwlg9JcTGPjN_Iq4FMxYhu4HR7HWv-jhLvRhp-wrsrg';
 
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4);
@@ -10,20 +10,16 @@ function urlBase64ToUint8Array(base64String) {
 }
 
 window.bbEnableAdminPush = async function () {
-  if (!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)) {
-    throw new Error('Push notifications are not supported by this browser.');
-  }
+  if (!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)) throw new Error('Push notifications are not supported by this browser.');
   const sb = window.bbSupabase;
   if (!sb) throw new Error('Supabase is not ready yet.');
   const { data: auth } = await sb.auth.getUser();
   if (!auth.user) throw new Error('Please log in to the admin account first.');
   const { data: admin } = await sb.from('admin_users').select('user_id').eq('user_id', auth.user.id).maybeSingle();
   if (!admin) throw new Error('This account is not an admin account.');
-
   const permission = await Notification.requestPermission();
   if (permission !== 'granted') throw new Error('Notification permission was not granted.');
-
-  const registration = await navigator.serviceWorker.register('/BBCollection/sw.js', { scope: '/BBCollection/' });
+  await navigator.serviceWorker.register('/BBCollection/sw.js', { scope: '/BBCollection/' });
   const ready = await navigator.serviceWorker.ready;
   let subscription = await ready.pushManager.getSubscription();
   if (!subscription) subscription = await ready.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlBase64ToUint8Array(window.BB_VAPID_PUBLIC_KEY) });
