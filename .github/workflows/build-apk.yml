@@ -1,0 +1,37 @@
+name: Build BB Collection APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Bubblewrap
+        run: npm install -g @bubblewrap/cli
+
+      - name: Initialize Android project
+        run: |
+          mkdir -p apk-build
+          cd apk-build
+          bubblewrap init --manifest https://cobra546.github.io/BBCollection/manifest.json
+
+      - name: Build APK
+        run: |
+          cd apk-build
+          bubblewrap build
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: BB-Collection-APK
+          path: apk-build/*.apk
