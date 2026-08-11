@@ -35,7 +35,18 @@ window.bbEnableAdminPush = async function () {
   return subscription;
 };
 
+async function pushErrorMessage(error) {
+  if (error?.context && typeof error.context.json === 'function') {
+    try {
+      const body = await error.context.json();
+      if (body?.details) return `${body.error || 'Push failed'} — ${body.details}`;
+      if (body?.error) return body.error;
+    } catch (_) {}
+  }
+  return error?.message || 'Push request failed.';
+}
+
 window.bbTestAdminPush = async function () {
   const { error } = await (await window.bbSupabase).functions.invoke('send-admin-push', { body: { test: true } });
-  if (error) throw error;
+  if (error) throw new Error(await pushErrorMessage(error));
 };
