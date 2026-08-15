@@ -1,5 +1,5 @@
 // BB Collection admin web-push registration.
-window.BB_VAPID_PUBLIC_KEY = 'Lx9BsmDSG1Pe0z49TRb8Jj6ZvZ3Z05cybtFDn9uWSZRtq9oFlMZlsINysJsmAhmJlknt0KZfJ2v7HOQziXvn6g';
+window.BB_VAPID_PUBLIC_KEY = 'BC8fQbJg0htT3tM-PU0W_CY-mb2d2dOXMm7RQ5_blkmUbavaBZTGZbCDcrCbJgIZiZZJ7dCmXydr-xzkM4l75-o';
 
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4);
