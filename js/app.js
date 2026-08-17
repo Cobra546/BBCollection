@@ -20,7 +20,8 @@ const PRODUCTS=[
 {id:'19',name:'Rare Archive Oversized Tee',price:1600,category:'vintage',image:'file_00000000fd588211a991e09211e6ba30.png'},
 {id:'20',name:'After Dark Oversized Tee',price:1650,category:'streetwear',image:'file_00000000f1f48246b10a47f6da009cac.png'},
 {id:'21',name:'Rare Species Oversized Tee',price:1650,category:'streetwear',image:'1000531350.png'},
-{id:'22',name:"Don't Fit In Oversized Tee",price:1650,category:'streetwear',image:'1000530754.png'}
+{id:'22',name:"Don't Fit In Oversized Tee",price:1650,category:'streetwear',image:'1000530754.png'},
+{id:'23',name:'BB Streetwear — 3 Design Drop',price:1650,category:'streetwear',image:'assets/bb-streetwear-1650.svg'}
 ];
 const SIZES=['S','M','L','XL'];
 const SIZE_GUIDE={S:{chest:23,length:27},M:{chest:24,length:28},L:{chest:25,length:29},XL:{chest:26,length:30}};
