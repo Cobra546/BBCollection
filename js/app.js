@@ -1,4 +1,9 @@
 const PRODUCTS=[
+{id:'24',name:'Echoes / Nocturnal / Chaos — Design Drop',price:1600,category:'streetwear',image:'4f8c38dddfdf57005a876dba138771ec8855c3f9b511e6df29161378f9b06a9e.png'},
+{id:'25',name:"Feel But Don't Fall — Design Drop",price:1600,category:'streetwear',image:'file_0000000074448208877ec9e818fa089a.png'},
+{id:'26',name:'Rare Species / Don\'t Fit In / No Copy Repeat',price:1650,category:'streetwear',image:'file_0000000053b08211b426f0e3ed7bb596.png'},
+{id:'27',name:'Rare Species / Don\'t Fit In / No Copy Repeat — B&W Drop',price:1550,category:'streetwear',image:'file_00000000e5048211aa25d6845bc60a24.png'},
+{id:'28',name:'Stay Rare — Anime Streetwear Drop',price:1600,category:'streetwear',image:'file_00000000049c820baeeafea685b034e0.png'},
 {id:'1',name:'Stay Rare Oversized Tee',price:1650,category:'streetwear',image:'file_000000001e4c820bb550691803beedda.png'},
 {id:'2',name:'Street Signal Oversized Tee',price:1600,category:'streetwear',image:'1780582072182.png'},
 {id:'3',name:'Tokyo Nights Oversized Tee',price:1650,category:'anime',image:'file_0000000050c8820bab61130ba5a06d2c.png'},
