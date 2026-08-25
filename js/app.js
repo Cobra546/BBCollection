@@ -44,4 +44,20 @@ function updateCartCount(){const n=getCart().reduce((s,x)=>s+Number(x.qty||0),0)
 function productCard(p){return `<article class="product-card"><a href="product.html?id=${p.id}" class="product-image" aria-label="View ${p.name}"><img src="${p.image}" alt="${p.name}" loading="lazy"><span>${p.category.toUpperCase()}</span><button type="button" class="wishlist-btn" data-id="${p.id}" aria-label="Add ${p.name} to wishlist">♡</button></a><div class="product-info"><h3>${p.name}</h3><p class="price">${money(p.price)}</p><a class="add-btn bb-view-btn" href="product.html?id=${p.id}">VIEW DETAILS</a></div></article>`}
 function renderProducts(list=PRODUCTS){const el=document.querySelector('#featuredProducts');if(!el)return;el.innerHTML=list.slice(0,8).map(productCard).join('');el.querySelectorAll('.wishlist-btn').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const w=JSON.parse(localStorage.getItem('bb_wishlist')||'[]');if(!w.includes(b.dataset.id))w.push(b.dataset.id);localStorage.setItem('bb_wishlist',JSON.stringify(w));b.textContent='♥';showToast('Saved to wishlist')}));}
 const searchModal=document.querySelector('#searchModal');document.querySelector('#searchBtn')?.addEventListener('click',()=>{if(searchModal){searchModal.hidden=false;document.querySelector('#searchInput')?.focus()}});document.querySelector('#closeSearch')?.addEventListener('click',()=>{if(searchModal)searchModal.hidden=true});document.querySelector('#searchInput')?.addEventListener('input',e=>{const q=e.target.value.toLowerCase();document.querySelector('#searchResults').innerHTML=PRODUCTS.filter(p=>p.name.toLowerCase().includes(q)).map(p=>`<div class="search-result"><a href="product.html?id=${p.id}">${p.name} — ${money(p.price)}</a></div>`).join('')||'<p>No products found.</p>'});document.querySelector('.menu-toggle')?.addEventListener('click',()=>document.querySelector('.nav')?.classList.toggle('mobile-open'));document.querySelector('#newsletterForm')?.addEventListener('submit',e=>{e.preventDefault();document.querySelector('#newsletterMessage').textContent='Thanks — you are on the list.';e.target.reset()});document.querySelector('#year')&&(document.querySelector('#year').textContent=new Date().getFullYear());
+
+// Admin dashboard: clicking a product image opens the exact product detail page.
+document.addEventListener('click',e=>{
+  const thumb=e.target.closest('img.product-thumb');
+  if(!thumb)return;
+  const product=PRODUCTS.find(p=>String(p.name).trim().toLowerCase()===String(thumb.alt||'').trim().toLowerCase())||PRODUCTS.find(p=>String(p.image)===String(thumb.getAttribute('src')||''));
+  if(product){
+    e.preventDefault();
+    window.location.href=`product.html?id=${encodeURIComponent(product.id)}`;
+  }
+});
+
+const adminStyle=document.createElement('style');
+adminStyle.textContent='img.product-thumb{cursor:pointer;transition:transform .2s ease,box-shadow .2s ease}img.product-thumb:hover{transform:scale(1.05);box-shadow:0 0 0 2px rgba(199,169,120,.7)}';
+document.head.appendChild(adminStyle);
+
 updateCartCount();renderProducts();bbReady.then(()=>loadAccountCart());
