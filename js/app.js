@@ -43,21 +43,26 @@ function showToast(text){let t=document.querySelector('.toast');if(!t){t=documen
 function updateCartCount(){const n=getCart().reduce((s,x)=>s+Number(x.qty||0),0);document.querySelectorAll('#cartCount').forEach(e=>e.textContent=n)}
 function productCard(p){return `<article class="product-card"><a href="product.html?id=${p.id}" class="product-image" aria-label="View ${p.name}"><img src="${p.image}" alt="${p.name}" loading="lazy"><span>${p.category.toUpperCase()}</span><button type="button" class="wishlist-btn" data-id="${p.id}" aria-label="Add ${p.name} to wishlist">♡</button></a><div class="product-info"><h3>${p.name}</h3><p class="price">${money(p.price)}</p><a class="add-btn bb-view-btn" href="product.html?id=${p.id}">VIEW DETAILS</a></div></article>`}
 function renderProducts(list=PRODUCTS){const el=document.querySelector('#featuredProducts');if(!el)return;el.innerHTML=list.slice(0,8).map(productCard).join('');el.querySelectorAll('.wishlist-btn').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const w=JSON.parse(localStorage.getItem('bb_wishlist')||'[]');if(!w.includes(b.dataset.id))w.push(b.dataset.id);localStorage.setItem('bb_wishlist',JSON.stringify(w));b.textContent='♥';showToast('Saved to wishlist')}));}
-const searchModal=document.querySelector('#searchModal');document.querySelector('#searchBtn')?.addEventListener('click',()=>{if(searchModal){searchModal.hidden=false;document.querySelector('#searchInput')?.focus()}});document.querySelector('#closeSearch')?.addEventListener('click',()=>{if(searchModal)searchModal.hidden=true});document.querySelector('#searchInput')?.addEventListener('input',e=>{const q=e.target.value.toLowerCase();document.querySelector('#searchResults').innerHTML=PRODUCTS.filter(p=>p.name.toLowerCase().includes(q)).map(p=>`<div class="search-result"><a href="product.html?id=${p.id}">${p.name} — ${money(p.price)}</a></div>`).join('')||'<p>No products found.</p>'});document.querySelector('.menu-toggle')?.addEventListener('click',()=>document.querySelector('.nav')?.classList.toggle('mobile-open'));document.querySelector('#newsletterForm')?.addEventListener('submit',e=>{e.preventDefault();document.querySelector('#newsletterMessage').textContent='Thanks — you are on the list.';e.target.reset()});document.querySelector('#year')&&(document.querySelector('#year').textContent=new Date().getFullYear());
+
+const searchModal=document.querySelector('#searchModal');
+const searchInput=document.querySelector('#searchInput');
+const searchResults=document.querySelector('#searchResults');
+const searchStatus=document.querySelector('#searchStatus');
+let searchTimer;
+const escapeHtml=v=>String(v||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+function setSearchOpen(open){if(!searchModal)return;searchModal.hidden=!open;searchModal.setAttribute('aria-hidden',String(!open));document.body.classList.toggle('search-open',open);if(open){requestAnimationFrame(()=>searchModal.classList.add('is-open'));setTimeout(()=>searchInput?.focus(),80)}else{searchModal.classList.remove('is-open');if(searchInput){searchInput.value='';renderSearch('')} }}
+function renderSearch(query=''){if(!searchResults)return;const q=query.trim().toLowerCase();if(!q){searchStatus&&(searchStatus.textContent='Start typing to discover the collection');searchResults.innerHTML='<div class="search-empty"><span>⌕</span><p>Search for your favorite BB Collection piece</p></div>';return}
+const words=q.split(/\s+/).filter(Boolean);const results=PRODUCTS.filter(p=>{const hay=`${p.name} ${p.category}`.toLowerCase();return words.every(word=>hay.includes(word))}).slice(0,12);searchStatus&&(searchStatus.textContent=`${results.length} ${results.length===1?'piece':'pieces'} found`);if(!results.length){searchResults.innerHTML=`<div class="search-empty no-result"><span>×</span><p>No pieces found for <strong>“${escapeHtml(query)}”</strong></p><small>Try another shirt name, vibe or category.</small></div>`;return}searchResults.innerHTML=results.map((p,i)=>`<a class="premium-search-result" style="--delay:${i*35}ms" href="product.html?id=${encodeURIComponent(p.id)}"><div class="search-product-image"><img src="${p.image}" alt="${escapeHtml(p.name)}" loading="lazy"></div><div class="search-product-copy"><span class="search-category">${escapeHtml(p.category)}</span><h3>${escapeHtml(p.name)}</h3><p>${money(p.price)}</p></div><span class="search-arrow">↗</span></a>`).join('')}
+document.querySelector('#searchBtn')?.addEventListener('click',()=>setSearchOpen(true));
+document.querySelector('#closeSearch')?.addEventListener('click',()=>setSearchOpen(false));
+document.querySelector('#searchBackdrop')?.addEventListener('click',()=>setSearchOpen(false));
+searchInput?.addEventListener('input',e=>{clearTimeout(searchTimer);const value=e.target.value;searchStatus&&(searchStatus.textContent=value.trim()?'Searching the collection…':'Start typing to discover the collection');searchTimer=setTimeout(()=>renderSearch(value),70)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!searchModal?.hidden)setSearchOpen(false)});
+
+document.querySelector('.menu-toggle')?.addEventListener('click',()=>document.querySelector('.nav')?.classList.toggle('mobile-open'));document.querySelector('#newsletterForm')?.addEventListener('submit',e=>{e.preventDefault();document.querySelector('#newsletterMessage').textContent='Thanks — you are on the list.';e.target.reset()});document.querySelector('#year')&&(document.querySelector('#year').textContent=new Date().getFullYear());
 
 // Admin dashboard: clicking a product image opens the exact product detail page.
-document.addEventListener('click',e=>{
-  const thumb=e.target.closest('img.product-thumb');
-  if(!thumb)return;
-  const product=PRODUCTS.find(p=>String(p.name).trim().toLowerCase()===String(thumb.alt||'').trim().toLowerCase())||PRODUCTS.find(p=>String(p.image)===String(thumb.getAttribute('src')||''));
-  if(product){
-    e.preventDefault();
-    window.location.href=`product.html?id=${encodeURIComponent(product.id)}`;
-  }
-});
-
-const adminStyle=document.createElement('style');
-adminStyle.textContent='img.product-thumb{cursor:pointer;transition:transform .2s ease,box-shadow .2s ease}img.product-thumb:hover{transform:scale(1.05);box-shadow:0 0 0 2px rgba(199,169,120,.7)}';
-document.head.appendChild(adminStyle);
+document.addEventListener('click',e=>{const thumb=e.target.closest('img.product-thumb');if(!thumb)return;const product=PRODUCTS.find(p=>String(p.name).trim().toLowerCase()===String(thumb.alt||'').trim().toLowerCase())||PRODUCTS.find(p=>String(p.image)===String(thumb.getAttribute('src')||''));if(product){e.preventDefault();window.location.href=`product.html?id=${encodeURIComponent(product.id)}`;}});
+const adminStyle=document.createElement('style');adminStyle.textContent='img.product-thumb{cursor:pointer;transition:transform .2s ease,box-shadow .2s ease}img.product-thumb:hover{transform:scale(1.05);box-shadow:0 0 0 2px rgba(199,169,120,.7)}';document.head.appendChild(adminStyle);
 
 updateCartCount();renderProducts();bbReady.then(()=>loadAccountCart());
