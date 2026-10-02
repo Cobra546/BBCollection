@@ -1,4 +1,5 @@
 const WHATSAPP_NUMBER='YOUR_NUMBER';
+const WHATSAPP_NUMBER='YOUR_NUMBER';
 const PRODUCTS=[
 {id:'24',name:'Nocturne Echoes',price:1600,category:'streetwear',image:'4f8c38dddfdf57005a876dba138771ec8855c3f9b511e6df29161378f9b06a9e.png'},
 {id:'25',name:"Fallout Feelings",price:1600,category:'streetwear',image:'file_0000000074448208877ec9e818fa089a.png'},
@@ -30,6 +31,7 @@ const PRODUCTS=[
 {id:'23',name:'Triple Threat',price:1650,category:'streetwear',image:'assets/bb-streetwear-1650.svg'}
 ];
 window.PRODUCTS=PRODUCTS;
+window.PRODUCTS=PRODUCTS;
 const SIZES=['S','M','L','XL'];
 const SIZE_GUIDE={S:{chest:23,length:27},M:{chest:24,length:28},L:{chest:25,length:29},XL:{chest:26,length:30}};
 const money=n=>`Rs. ${Number(n).toLocaleString('en-PK')}`;
@@ -41,10 +43,25 @@ async function currentUser(){const sb=await bbReady;const {data}=await sb.auth.g
 async function syncCart(cart=getCart()){try{const sb=await bbReady;const u=await currentUser();if(!u)return;await sb.from('cart_items').delete().eq('user_id',u.id);if(cart.length)await sb.from('cart_items').insert(cart.map(x=>({user_id:u.id,product_id:Number(x.id),quantity:x.qty,print_name:x.print_name||null,size:x.size||null})));}catch(e){console.warn('Cart sync:',e)}}
 async function loadAccountCart(){try{const local=getCart();const sb=await bbReady;const u=await currentUser();if(!u)return local;const {data,error}=await sb.from('cart_items').select('product_id,quantity,print_name,size').eq('user_id',u.id);if(error)throw error;const cloud=(data||[]).map(x=>{const p=PRODUCTS.find(y=>y.id===String(x.product_id));return p?{...p,qty:x.quantity,print_name:x.print_name||'',size:x.size||''}:null}).filter(Boolean);if(!local.length&&cloud.length){localStorage.setItem('bb_cart',JSON.stringify(cloud));updateCartCount();return cloud}if(local.length){syncCart(local);return local}return local}catch(e){console.warn('Cart load:',e);return getCart()}}
 async function addToCart(id,size='',printName=''){const p=PRODUCTS.find(x=>x.id===String(id));if(!p)return;const chosenSize=String(size||'').toUpperCase().trim();if(!SIZES.includes(chosenSize)){showToast('Please select a size first');return null}const print=String(printName||'').trim().slice(0,100);const c=getCart();const item=c.find(x=>x.id===p.id&&(x.print_name||'')===print&&(x.size||'')===chosenSize);item?item.qty++:c.push({...p,qty:1,size:chosenSize,print_name:print});localStorage.setItem('bb_cart',JSON.stringify(c));updateCartCount();syncCart(c);showToast(print?`Added ${chosenSize} • ${print}`:`Added ${chosenSize} to cart`);return c;}
+function whatsappUrl(message){
+if(WHATSAPP_NUMBER==='YOUR_NUMBER'){showToast('Add your WhatsApp number in js/app.js first');return null}
+return 'https://wa.me/'+WHATSAPP_NUMBER+'?text='+encodeURIComponent(message)
+}
+function openWhatsAppForProduct(p){
+const message=['Hi BB Collection, I want to order: '+p.name,'Price: '+money(p.price),'Size: Not selected','Customer name: ','Phone: ','Address: ','Please confirm availability.'].join('\n');
+const url=whatsappUrl(message);if(url)window.open(url,'_blank','noopener')
+}
+function openWhatsAppForCart(cart,customer={}){
+const items=cart.map(x=>'• '+x.name+' — Size: '+(x.size||'Not selected')+' — Qty: '+x.qty+' — '+money(x.price)).join('\n');
+const total=cart.reduce((s,x)=>s+Number(x.price||0)*Number(x.qty||0),0);
+const message=['Hi BB Collection, I want to place an order.',items,'Total: '+money(total),'Customer name: '+(customer.name||''),'Phone: '+(customer.phone||''),'Address: '+(customer.address||''),'City: '+(customer.city||''),'Please confirm my order.'].join('\n');
+const url=whatsappUrl(message);if(url)window.open(url,'_blank','noopener')
+}
+window.BBCollectionWhatsApp={openWhatsAppForProduct,openWhatsAppForCart};
 function showToast(text){let t=document.querySelector('.toast');if(!t){t=document.createElement('div');t.className='toast';document.body.appendChild(t)}t.textContent=text;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)}
 function updateCartCount(){const n=getCart().reduce((s,x)=>s+Number(x.qty||0),0);document.querySelectorAll('#cartCount').forEach(e=>e.textContent=n)}
-function productCard(p){return `<article class="product-card"><a href="product.html?id=${p.id}" class="product-image" aria-label="View ${p.name}"><img src="${p.image}" alt="${p.name}" loading="lazy"><span>${p.category.toUpperCase()}</span><button type="button" class="wishlist-btn" data-id="${p.id}" aria-label="Add ${p.name} to wishlist">♡</button></a><div class="product-info"><h3>${p.name}</h3><p class="price">${money(p.price)}</p><a class="add-btn bb-view-btn" href="product.html?id=${p.id}">VIEW DETAILS</a></div></article>`}
-function renderProducts(list=PRODUCTS){const el=document.querySelector('#featuredProducts');if(!el)return;el.innerHTML=list.slice(0,8).map(productCard).join('');el.querySelectorAll('.wishlist-btn').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const w=JSON.parse(localStorage.getItem('bb_wishlist')||'[]');if(!w.includes(b.dataset.id))w.push(b.dataset.id);localStorage.setItem('bb_wishlist',JSON.stringify(w));b.textContent='♥';showToast('Saved to wishlist')}));}
+function productCard(p){return `<article class="product-card"><a href="product.html?id=${p.id}" class="product-image" aria-label="View ${p.name}"><img src="${p.image}" alt="${p.name}" loading="lazy" width="800" height="1000"><span>${p.category.toUpperCase()}</span><button type="button" class="wishlist-btn" data-id="${p.id}" aria-label="Add ${p.name} to wishlist">♡</button></a><div class="product-info"><h3>${p.name}</h3><p class="price">${money(p.price)}</p><div class="product-actions"><a class="add-btn bb-view-btn" href="product.html?id=${p.id}">VIEW DETAILS</a><button class="add-btn whatsapp-order-btn" type="button" data-whatsapp-product="${p.id}">💬 QUICK ORDER</button></div></div></article>`}
+function renderProducts(list=PRODUCTS){const el=document.querySelector('#featuredProducts');if(!el)return;const msg=document.querySelector('#featuredProductsMessage');try{if(!Array.isArray(list)||!list.length)throw new Error('No products');el.classList.remove('featured-loading');el.innerHTML=list.slice(0,8).map(productCard).join('');msg?.setAttribute('hidden','');el.querySelectorAll('.wishlist-btn').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const w=JSON.parse(localStorage.getItem('bb_wishlist')||'[]');if(!w.includes(b.dataset.id))w.push(b.dataset.id);localStorage.setItem('bb_wishlist',JSON.stringify(w));b.textContent='♥';showToast('Saved to wishlist')}));el.querySelectorAll('[data-whatsapp-product]').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const p=PRODUCTS.find(x=>x.id===b.dataset.whatsappProduct);if(p)openWhatsAppForProduct(p)}));}catch(error){console.error('Featured products failed:',error);el.innerHTML='';if(msg){msg.textContent='Products loading... Check back soon!';msg.removeAttribute('hidden')}}}
 
 const searchModal=document.querySelector('#searchModal');
 const searchInput=document.querySelector('#searchInput');
@@ -67,4 +84,4 @@ document.querySelector('.menu-toggle')?.addEventListener('click',()=>document.qu
 document.addEventListener('click',e=>{const thumb=e.target.closest('img.product-thumb');if(!thumb)return;const product=PRODUCTS.find(p=>String(p.name).trim().toLowerCase()===String(thumb.alt||'').trim().toLowerCase())||PRODUCTS.find(p=>String(p.image)===String(thumb.getAttribute('src')||''));if(product){e.preventDefault();window.location.href=`product.html?id=${encodeURIComponent(product.id)}`;}});
 const adminStyle=document.createElement('style');adminStyle.textContent='img.product-thumb{cursor:pointer;transition:transform .2s ease,box-shadow .2s ease}img.product-thumb:hover{transform:scale(1.05);box-shadow:0 0 0 2px rgba(199,169,120,.7)}';document.head.appendChild(adminStyle);
 
-updateCartCount();renderProducts();bbReady.then(()=>loadAccountCart());
+updateCartCount();renderProducts();bbReady.then(()=>loadAccountCart()).catch(error=>console.warn('Account cart sync failed:',error));
