@@ -1,5 +1,4 @@
-const WHATSAPP_NUMBER='YOUR_NUMBER';
-const WHATSAPP_NUMBER='YOUR_NUMBER';
+const WHATSAPP_NUMBER='923452369131';
 const PRODUCTS=[
 {id:'24',name:'Nocturne Echoes',price:1600,category:'streetwear',image:'4f8c38dddfdf57005a876dba138771ec8855c3f9b511e6df29161378f9b06a9e.png'},
 {id:'25',name:"Fallout Feelings",price:1600,category:'streetwear',image:'file_0000000074448208877ec9e818fa089a.png'},
@@ -30,7 +29,6 @@ const PRODUCTS=[
 {id:'22',name:'Outcast Theory',price:1650,category:'streetwear',image:'1000530754.png'},
 {id:'23',name:'Triple Threat',price:1650,category:'streetwear',image:'assets/bb-streetwear-1650.svg'}
 ];
-window.PRODUCTS=PRODUCTS;
 window.PRODUCTS=PRODUCTS;
 const SIZES=['S','M','L','XL'];
 const SIZE_GUIDE={S:{chest:23,length:27},M:{chest:24,length:28},L:{chest:25,length:29},XL:{chest:26,length:30}};
