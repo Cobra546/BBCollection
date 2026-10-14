@@ -34,7 +34,7 @@ body{background:radial-gradient(circle at top right,rgba(199,169,120,.09),transp
 <div class="orders-toolbar"><input id="searchOrders" placeholder="Search customer, phone, email or order ID"><div class="filter-pills"><button class="filter-pill active" data-filter="all">All</button><button class="filter-pill" data-filter="pending">Pending</button><button class="filter-pill" data-filter="processing">Processing</button><button class="filter-pill" data-filter="shipped">Shipped</button><button class="filter-pill" data-filter="delivered">Delivered</button></div></div>
 <div id="orders" class="orders-grid"><div class="loading">Loading orders…</div></div>
 </section></main>
-<script src="js/supabase.js"></script><script src="js/app.js"></script><script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script><script src="js/admin-push.js" defer></script>
+<script src="js/supabase.js"></script><script src="js/app.js"></script><script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script><script src="js/onesignal-admin-push.js" defer></script>
 <script>
 const login=document.querySelector('#login'),dash=document.querySelector('#dashboard'),loginBox=document.querySelector('#loginBox'),msg=document.querySelector('#loginMsg'),orders=document.querySelector('#orders'),searchOrders=document.querySelector('#searchOrders');
 let allOrders=[],activeFilter='all';
