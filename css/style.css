@@ -68,3 +68,16 @@ body{background:radial-gradient(ellipse at 50% -15%,#202226 0%,#0b0b0c 46%,#0808
 @media(hover:none),(pointer:coarse){.hero-shirt{animation-duration:8s}.product-image{transform:none!important}.product-image:after{opacity:.22}}
 @media(max-width:760px){.hero{min-height:auto;padding:48px 18px 36px;grid-template-columns:1fr;gap:28px}.hero-copy{order:0}.hero h1{font-size:clamp(72px,18vw,112px);letter-spacing:-.075em}.hero-copy>p:not(.eyebrow){margin:22px 0;max-width:36rem}.hero-art{min-height:330px;max-height:440px;border-radius:18px!important}.hero-shirt{width:min(68%,290px)}.section{padding:66px 18px}.section-head h2,.story h2,.newsletter h2{font-size:clamp(34px,9vw,44px)}.category-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.category{min-height:220px;padding:16px}.product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 10px}.product-image{border-radius:15px!important}.product-info{padding:12px 2px}.product-info h3{font-size:13px}.add-btn{font-size:10px;padding:11px 8px!important}.story{margin:8px 14px 55px;padding:45px 8px;grid-template-columns:1fr;gap:18px}.ig-panel{padding:22px}.ig-posts{gap:8px}.footer{flex-wrap:wrap;align-items:flex-start;padding:38px 18px 25px}.footer-links{flex-wrap:wrap}.ticker{font-size:9px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero-copy,.hero-shirt,.hero-art:before,.ticker div{animation:none!important}.hero-shirt,.product-image,.category,.bb-reveal{transition:none!important}.bb-reveal{opacity:1;transform:none}}
+
+
+/* Luxury loading skeletons — matte black & silver */
+.featured-loading{align-items:start}
+.product-skeleton{min-width:0;padding:0 0 14px;overflow:hidden;border:1px solid #252525;border-radius:20px;background:linear-gradient(145deg,#141414,#090909);box-shadow:0 14px 38px rgba(0,0,0,.22)}
+.skeleton-image{aspect-ratio:4/5;width:100%;border-radius:17px;background:linear-gradient(110deg,#111 8%,#242424 18%,#343434 28%,#171717 42%,#111 55%);background-size:220% 100%;animation:bbSilverShimmer 1.55s ease-in-out infinite;position:relative;overflow:hidden}
+.skeleton-image:after{content:"";position:absolute;inset:12px;border:1px solid rgba(210,210,210,.08);border-radius:12px}
+.skeleton-line{height:10px;width:54%;margin:16px 13px 0;border-radius:99px;background:linear-gradient(100deg,#1b1b1b 20%,#414141 45%,#1b1b1b 70%);background-size:220% 100%;animation:bbSilverShimmer 1.55s ease-in-out infinite}
+.skeleton-line.wide{width:75%;height:12px;margin-top:17px}
+.skeleton-button{height:39px;margin:17px 13px 0;border:1px solid #343434;border-radius:12px;background:linear-gradient(100deg,#121212 20%,#292929 45%,#121212 70%);background-size:220% 100%;animation:bbSilverShimmer 1.55s ease-in-out infinite}
+@keyframes bbSilverShimmer{0%{background-position:100% 0}100%{background-position:-120% 0}}
+@media(max-width:520px){.featured-loading{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.product-skeleton{border-radius:16px}.skeleton-image{border-radius:14px}}
+@media(prefers-reduced-motion:reduce){.skeleton-image,.skeleton-line,.skeleton-button{animation:none;background:#202020}}
