@@ -2,6 +2,8 @@
 // Frontend-safe publishable key. NEVER put a service_role/secret key here.
 window.BB_SUPABASE_URL = 'https://dqjoinjlsjiprildawjg.supabase.co';
 window.BB_SUPABASE_ANON_KEY = 'sb_publishable_6p7qgiCRza7NPCz2Sxg0Pw_dch-XZUr';
+// Public OneSignal App ID goes here after creating a dedicated BB Collection app.
+window.BB_ONESIGNAL_APP_ID = ''; // Set to the new BB Collection OneSignal App ID.
 window.bbSupabase = null;
 const supabaseScript = document.createElement('script');
 supabaseScript.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
