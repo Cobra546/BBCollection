@@ -29,12 +29,12 @@ body{background:radial-gradient(circle at top right,rgba(199,169,120,.09),transp
 <section id="loginBox" class="admin-login"><p class="admin-kicker">PRIVATE ACCESS</p><h1>Admin Dashboard</h1><p style="color:#888;line-height:1.5">Manage BB Collection orders in one place.</p>
 <form id="login" style="display:grid;gap:10px;margin-top:20px"><input id="email" type="email" placeholder="Admin email" required><input id="password" type="password" placeholder="Password" required><button class="btn">SIGN IN</button><p id="loginMsg" class="admin-msg"></p></form></section>
 <section id="dashboard" hidden>
-<div class="dashboard-head"><div><p class="admin-kicker">BB COLLECTION / CONTROL ROOM</p><h1>Orders Dashboard</h1></div><div class="top-actions"><button class="admin-btn" id="refreshBtn">↻ REFRESH</button><button class="admin-btn danger" id="logout">LOG OUT</button></div></div>
+<div class="dashboard-head"><div><p class="admin-kicker">BB COLLECTION / CONTROL ROOM</p><h1>Orders Dashboard</h1></div><div class="top-actions"><button class="admin-btn" id="adminPushEnable" type="button">🔔 ENABLE ORDER ALERTS</button><button class="admin-btn" id="refreshBtn">↻ REFRESH</button><button class="admin-btn danger" id="logout">LOG OUT</button></div></div>
 <div class="admin-stats"><div class="stat-card"><div class="stat-label">TOTAL ORDERS</div><div class="stat-value" id="statTotal">0</div></div><div class="stat-card"><div class="stat-label">PENDING</div><div class="stat-value" id="statPending">0</div></div><div class="stat-card"><div class="stat-label">PROCESSING</div><div class="stat-value" id="statProcessing">0</div></div><div class="stat-card"><div class="stat-label">DELIVERED</div><div class="stat-value" id="statDelivered">0</div></div></div>
 <div class="orders-toolbar"><input id="searchOrders" placeholder="Search customer, phone, email or order ID"><div class="filter-pills"><button class="filter-pill active" data-filter="all">All</button><button class="filter-pill" data-filter="pending">Pending</button><button class="filter-pill" data-filter="processing">Processing</button><button class="filter-pill" data-filter="shipped">Shipped</button><button class="filter-pill" data-filter="delivered">Delivered</button></div></div>
 <div id="orders" class="orders-grid"><div class="loading">Loading orders…</div></div>
 </section></main>
-<script src="js/supabase.js"></script><script src="js/app.js"></script>
+<script src="js/supabase.js"></script><script src="js/app.js"></script><script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script><script src="js/admin-push.js" defer></script>
 <script>
 const login=document.querySelector('#login'),dash=document.querySelector('#dashboard'),loginBox=document.querySelector('#loginBox'),msg=document.querySelector('#loginMsg'),orders=document.querySelector('#orders'),searchOrders=document.querySelector('#searchOrders');
 let allOrders=[],activeFilter='all';
