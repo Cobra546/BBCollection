@@ -10,7 +10,8 @@
   const ready=new Promise((resolve,reject)=>{readyResolve=resolve;readyReject=reject;});
   window.OneSignalDeferred.push(async OneSignal=>{
     try{
-      await OneSignal.init({appId,serviceWorkerPath:'OneSignalSDKWorker.js',serviceWorkerParam:{scope:'/BBCollection/'}});
+      // GitHub Pages projects are hosted under /BBCollection/, not the domain root.
+      await OneSignal.init({appId,serviceWorkerPath:'/BBCollection/OneSignalSDKWorker.js',serviceWorkerParam:{scope:'/BBCollection/'}});
       readyResolve(OneSignal);
     }catch(error){console.error('OneSignal init failed',error);readyReject(error);}
   });
